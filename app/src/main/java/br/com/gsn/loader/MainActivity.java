@@ -5,8 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -16,19 +18,30 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MainActivity extends Activity {
+
+    private ProgressBar progressBar;
+    private Button botao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button botao = (Button) findViewById(R.id.botao);
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+//        Button botao = (Button) findViewById(R.id.botao);
+        botao = (Button) findViewById(R.id.progressButton);
         botao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Task(v.getContext()).execute();
+            botao.setEnabled(false);
+            new Task(v.getContext()).execute();
+            Log.i("Click", new SimpleDateFormat("HH:mm:ss").format(new Date()));
             }
         });
     }
@@ -44,10 +57,11 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-            dialog = new ProgressDialog(context);
-            dialog.setTitle("Realizando o carregamento dos dados");
-            dialog.setMessage("Aguarde o fim da requisição...");
-            dialog.show();
+//            dialog = new ProgressDialog(context);
+//            dialog.setTitle("Realizando o carregamento dos dados");
+//            dialog.setMessage("Aguarde o fim da requisição...");
+//            dialog.show();
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -79,7 +93,9 @@ public class MainActivity extends Activity {
             Activity activity = (Activity) context;
             TextView dados = (TextView) activity.findViewById(R.id.dados);
             dados.setText("Dados: " + retorno);
-            dialog.dismiss();
+//            dialog.dismiss();
+            progressBar.setVisibility(View.INVISIBLE);
+            botao.setEnabled(true);
         }
     }
 }

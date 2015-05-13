@@ -14,11 +14,14 @@
         android:text="@string/dados" android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
+   <!-- <Button
         android:id="@+id/botao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/recuperar_dados"/>
+        android:text="@string/recuperar_dados"/>-->
+
+    <include
+        layout="@layout/progress_button"/>
 
 </LinearLayout>
